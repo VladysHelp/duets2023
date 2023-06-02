@@ -1,0 +1,17 @@
+.song-card {
+  padding: 24px;
+  box-shadow: 0 0 10px 0 #b6cad2;
+  text-align: left;
+  border-radius: 5px;
+  background-color: #b6cad2;
+  &__title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  &__items {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: repeat(auto-fill, 70px);
+    align-items: center;
+  }
+}
