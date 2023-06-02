@@ -3,7 +3,7 @@ const path = require("path");
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: "/choir/",
+  publicPath: "/",
   outputDir: path.resolve(__dirname, "./docs"),
   pwa: {
     workboxOptions: {
