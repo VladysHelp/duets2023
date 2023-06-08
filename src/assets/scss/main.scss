@@ -1,3 +1,7 @@
+@font-face {
+  font-family: ArcadeGamer;
+  src: url("~@/assets/Arcade Gamer.otf");
+}
 * {
   padding: 0;
   margin: 0;
@@ -7,11 +11,26 @@ body {
   font-size: 16px;
   line-height: 1;
   text-align: left;
-  font-family: sans-serif;
+  font-family: ArcadeGamer, sans-serif;
   background-color: #d7d7d7;
+  background-image: url("~@/assets/background.gif");
 }
 .container {
   max-width: 1440px;
   margin: 0 auto;
+}
+*::-webkit-scrollbar {
+  width: 20px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ccc;
+  border-radius: 100px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
+  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+  border-radius: 100px;
 }
 @import "./components/modal";

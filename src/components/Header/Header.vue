@@ -8,7 +8,7 @@
 <script>
 import Component from "vue-class-component";
 import Vue from 'vue';
-import logo from "@/assets/rednote 1.svg";
+import logo from "@/assets/RedNote.png";
 
 @Component({
   name: "Header",
