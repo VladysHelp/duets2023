@@ -388,6 +388,7 @@ export default class Duets extends Vue {
   gap: 32px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   position: relative;
 
   &__duet {
