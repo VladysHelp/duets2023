@@ -1,14 +1,8 @@
 <template>
   <div id="app">
-    <Audio ref="audioRef" />
-    <div class="banner" :class="{ active: isBanner }">
-      <button class="start-game" @click="startGame">
-        Start game
-      </button>
-    </div>
-    <Loading v-if="isLoading" />
+    <Audio />
     <Header />
-    <router-view v-if="isView"/>
+    <router-view />
   </div>
 </template>
 
@@ -25,25 +19,7 @@ import Audio from "@/components/Audio/Audio.vue";
   components: {Audio, Loading, Header},
 })
 export default class App extends Vue {
-  isBanner = false;
-  isLoading = false;
-  isView = false;
-  startGame(): void {
-    this.isBanner = false;
-    this.isLoading = true;
-    this.$refs.audioRef.playAudio();
-    setTimeout(() => {
-      this.isLoading = false;
-      this.isView = true;
-    }, 12000)
-  }
-  mounted(): void {
-    if (this.$route.name === "game") {
-      this.isBanner = true;
-    } else {
-      this.isView = true;
-    }
-  }
+
 }
 </script>
 <style lang="scss">

@@ -2,8 +2,9 @@
   display: flex;
   align-items: center;
   border-radius: 3px;
-  padding: 12px 20px;
-  font-size: 18px;
+  padding: 20px 40px;
+  font-size: 80px;
+  font-family: inherit;
   background-color: cadetblue;
   color: #fff;
   text-decoration: none;
@@ -12,7 +13,7 @@
   -webkit-appearance: button;
   -moz-appearance: button;
   appearance: button;
-  transition: 0.3s;
+  transition: 0.1s;
   text-rendering: auto;
   letter-spacing: normal;
   word-spacing: normal;
@@ -29,7 +30,21 @@
   &:hover {
     background-color: lightseagreen;
   }
+  &--green {
+    background-color: transparent;
+    &:hover {
+      color: #000;
+      background-color: greenyellow;
+    }
+  }
   &--danger:hover {
     background-color: darken(#D60C31, 5);
+  }
+  &.disabled {
+    background-color: transparent;
+    &:hover {
+      color: #000;
+      background-color: #ccc;
+    }
   }
 }

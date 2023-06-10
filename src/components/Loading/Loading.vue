@@ -29,6 +29,8 @@ export default class Button extends Vue {
   position: fixed;
   width: 100vw;
   height: 100vh;
+  top: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
   background: #000;

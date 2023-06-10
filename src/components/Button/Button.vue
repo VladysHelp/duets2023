@@ -1,7 +1,7 @@
 <template>
   <button
       v-if="type === 'button'"
-      :class="['button',uiType ? `button--${uiType}`: '']"
+      :class="['button',uiType ? `button--${uiType}`: '', disabled ? 'disabled' : '']"
       @click="$emit('click')"
   >
     <span class="button__content">
@@ -10,8 +10,10 @@
   </button>
   <router-link
       v-else-if="type === 'router-link'"
-      :class="['button',uiType ? `button--${uiType}`: '']"
+      :class="['button',uiType ? `button--${uiType}`: '', disabled ? 'disabled' : '']"
       :to="to"
+      event
+      @click.native.prevent="hadleLink(to)"
   >
     <span class="button__content">
       <slot />
@@ -38,6 +40,20 @@ export default class Button extends Vue {
     type: String,
     default: null
   }) uiType!: string;
+  @Prop({
+    type: String,
+    default: () => false
+  }) disabled!: boolean;
+  click(): void {
+    if (!this.disabled) {
+      this.$emit('click');
+    }
+  }
+  hadleLink(route: string): void {
+    if (!this.disabled) {
+      this.$router.push(route);
+    }
+  }
 }
 </script>
 <style lang="scss" src="./button.scss" />

@@ -1,6 +1,7 @@
 <template>
-  <div class="home">
-    <div class="main" :class="{ active: isMain }">
+  <div class="game">
+    <Loading v-if="isLoading" />
+    <div class="main" v-if="isMain" :class="{ active: isMain }">
       <div class="users-list">
         <div
             class="users-list__user"
@@ -43,7 +44,7 @@
         </div>
       </div>
     </div>
-    <div class="rednote-block" :class="{ active: !isMain }">
+    <div class="rednote-block" v-if="!isLoading" :class="{ active: !isMain }">
       <div class="rednote-block__container">
         <div class="rednote-block__red">
           <img :src="redImg" alt=""/>
@@ -69,42 +70,21 @@ import redImg from "@/assets/red.png";
 import noteImg from "@/assets/note.png";
 import reborne from "@/assets/reborne.png";
 import two from "@/assets/2.png";
+import users from "@/constants/users";
+import duets2023 from "@/constants/duets";
+import Loading from "@/components/Loading/Loading.vue";
 
 @Component({
   name: "HomeView",
-  components: { },
+  components: {Loading },
 })
 export default class HomeView extends Vue {
+  isLoading = true;
   currentAnimIndex: number | null = null;
   chosenUserIndex: number | null = null;
   isMain = false;
   isAllowNextDuet = true;
-  users = [
-    {
-      name: "Владислав Кухлій",
-      photo: "https://lh3.googleusercontent.com/pw/AJFCJaX3DQEZgXQfJHTS0AuXWjDLD7OHujpOnpWF0hOYczJ011WL4AnCxNfDgE_vXgrfQ73V3prh0NqVrnYdQy5eFzmNjaU76NUnVFntjhXylL37oeCqnlDDmN58pYpqlQgCT9a92XtFFz7PgxjCd26RseU=w645-h969-s-no?authuser=1",
-    },
-    {
-      name: "Alex Protasenya",
-      photo: "https://lh3.googleusercontent.com/pw/AJFCJaW85mQppsgeMx4SSbwZB08zY__BjCA5jjdc6mCJCKGwDLfUNCVtKMDjoj9089hlmhPtps1t9jUb3Ls6EiN3Q6m65YHvCf7_IePV8iextHvVs6Vyx4aLDm3x5f-JykaDnMH43WSbuId0Ig28FBAMdWE=w631-h969-s-no?authuser=1",
-    },
-    {
-      name: "Jimmy Page1",
-      photo: "https://lh3.googleusercontent.com/pw/AJFCJaX3DQEZgXQfJHTS0AuXWjDLD7OHujpOnpWF0hOYczJ011WL4AnCxNfDgE_vXgrfQ73V3prh0NqVrnYdQy5eFzmNjaU76NUnVFntjhXylL37oeCqnlDDmN58pYpqlQgCT9a92XtFFz7PgxjCd26RseU=w645-h969-s-no?authuser=1",
-    },
-    {
-      name: "Robert Plant1",
-      photo: "https://lh3.googleusercontent.com/pw/AJFCJaW85mQppsgeMx4SSbwZB08zY__BjCA5jjdc6mCJCKGwDLfUNCVtKMDjoj9089hlmhPtps1t9jUb3Ls6EiN3Q6m65YHvCf7_IePV8iextHvVs6Vyx4aLDm3x5f-JykaDnMH43WSbuId0Ig28FBAMdWE=w631-h969-s-no?authuser=1",
-    },
-    {
-      name: "Jimmy Page2",
-      photo: "https://lh3.googleusercontent.com/pw/AJFCJaX3DQEZgXQfJHTS0AuXWjDLD7OHujpOnpWF0hOYczJ011WL4AnCxNfDgE_vXgrfQ73V3prh0NqVrnYdQy5eFzmNjaU76NUnVFntjhXylL37oeCqnlDDmN58pYpqlQgCT9a92XtFFz7PgxjCd26RseU=w645-h969-s-no?authuser=1",
-    },
-    {
-      name: "Robert Plant2",
-      photo: "https://lh3.googleusercontent.com/pw/AJFCJaW85mQppsgeMx4SSbwZB08zY__BjCA5jjdc6mCJCKGwDLfUNCVtKMDjoj9089hlmhPtps1t9jUb3Ls6EiN3Q6m65YHvCf7_IePV8iextHvVs6Vyx4aLDm3x5f-JykaDnMH43WSbuId0Ig28FBAMdWE=w631-h969-s-no?authuser=1",
-    },
-  ];
+  users = users;
   currentDuet: any = [];
   chosenDuets: any = [];
   redImg = redImg;
@@ -112,6 +92,17 @@ export default class HomeView extends Vue {
   reborne = reborne;
   two = two;
   runAnimation() {
+    if (this.users.length === 2) {
+      this.currentDuet = [...this.users];
+      this.users = [];
+      setTimeout(() => {
+        this.chosenDuets.push(this.currentDuet);
+        this.currentDuet = [];
+        localStorage.setItem("duets", JSON.stringify(this.chosenDuets));
+        this.$router.push("/");
+      }, 10000);
+      return
+    }
     const interval = setInterval(() => {
       this.currentAnimIndex = Math.floor(Math.random() * (this.users.length));
     }, 200);
@@ -127,18 +118,6 @@ export default class HomeView extends Vue {
         if (this.currentDuet.length === 2) {
           this.isAllowNextDuet = true;
         }
-        if (this.users.length === 2) {
-          this.chosenDuets.push(this.currentDuet);
-          setTimeout(() => {
-            this.currentDuet = [...this.users];
-            this.users = [];
-            setTimeout(() => {
-              this.chosenDuets.push(this.currentDuet);
-              this.currentDuet = [];
-              this.$router.push("/");
-            }, 10000);
-          }, 2500);
-        }
       }, 1000)
     }, 2500)
   }
@@ -152,9 +131,16 @@ export default class HomeView extends Vue {
     this.runAnimation();
   }
   mounted(): void {
-    setTimeout(() => {
-      this.isMain = true;
-    }, 6000);
+    if (duets2023.length) {
+      this.$router.push("/");
+    } else {
+      setTimeout(() => {
+        this.isLoading = false;
+        setTimeout(() => {
+          this.isMain = true;
+        }, 6000);
+      }, 12000)
+    }
   }
 }
 </script>
@@ -215,9 +201,8 @@ body {
   position: relative;
 }
 $border: 5px;
-.home{
+.game{
   padding: 32px;
-  overflow-x: hidden;
 }
 .main-lottery {
   display: flex;
@@ -227,25 +212,34 @@ $border: 5px;
   position: relative;
   justify-content: center;
   &__user {
-    width: 550px;
+    min-width: 550px;
     display: flex;
     flex-direction: column;
     position: relative;
+    overflow: hidden;
     &:before {
       content: '';
       position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
+      top: 50%;
+      left: 50%;
+      height: 2000px;
+      width: 2000px;
       z-index: -1;
       margin: -$border; /* !importanté */
       border-radius: inherit; /* !importanté */
       background: linear-gradient(-45deg,#d0368a, #708ad4);
+      animation: 1s rotateBorder linear infinite forwards;
     }
     &:last-child &:before{
-      background: linear-gradient(45deg,#d0368a, #708ad4);
+      animation: 1s rotateBorder linear infinite reverse;
     }
   }
+  &__user:nth-of-type(2) &__user-photo {
+    transform: rotateY(180deg);
+  }
   &__user-photo {;
-    width: 510px;
+    min-width: 510px;
+    max-width: 510px;
     height: 786px;
     margin: 20px;
     background-color: #c0c0c0;
@@ -370,6 +364,8 @@ $border: 5px;
     border: 8px solid #c0c0c0;
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    animation: 0.5s urserAppear forwards;
 
     img {
       display: block;
@@ -399,6 +395,11 @@ $border: 5px;
       transition: 0.3s;
       transform-origin: top left;
     }
+    @for $i from 1 through 22 {
+      &:nth-of-type(#{$i}) {
+        animation-delay: #{0.1 * $i}s;
+      }
+    }
   }
 }
 .central-grid {
@@ -420,6 +421,7 @@ $border: 5px;
   &.active {
     opacity: 1;
     visibility: visible;
+    transition: 0s;
   }
   &__container {
     width: 990px;
@@ -470,6 +472,14 @@ $border: 5px;
     transform: rotate(0)
   }
 }
+@keyframes rotateBorder {
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
 @keyframes shake {
   0% {
     transform: translateX(-10%);
@@ -509,26 +519,42 @@ $border: 5px;
 }
 @keyframes appearLeft {
   from {
+    box-shadow: -500px 500px 500px 0px #d0368a;
     transform: translate(-150%, 150%) scale(0);
   }
   to {
+    box-shadow: 0 0 0 0 #d0368a;
     transform: translate(0, 0) scale(1);
   }
 }
 @keyframes appearRight {
   from {
     transform: translate(150%, 150%) scale(0);
+    box-shadow: 500px 500px 500px 0px #708ad4;
   }
   to {
     transform: translate(0, 0) scale(1);
+    box-shadow: 0 0 0 0 #708ad4;
   }
 }
 @keyframes appearBottom {
   from {
+    box-shadow: 500px 500px 500px 0px greenyellow;
     transform: translate(0, 150%) scale(0);
   }
   to {
+    box-shadow: 0 0 0 0 greenyellow;
     transform: translate(0, 0) scale(1);
+  }
+}
+@keyframes urserAppear {
+  from {
+    transform: translateY(-700%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 </style>
