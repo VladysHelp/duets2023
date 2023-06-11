@@ -1,6 +1,15 @@
 <template>
   <div class="game">
     <Loading v-if="isLoading" />
+    <div class="audio-toasty">
+      <audio ref="toastyRef">
+        <source :src="toastyAudio" type="audio/mp3">
+      </audio>
+    </div>
+    <div class="toasty-easter" :class="{active: isToasty }">
+      <img src="~@/assets/sasha_toasty.png" alt="" class="tosty-easter__left"/>
+      <img src="~@/assets/vlad_toasty.png" alt="" class="tosty-easter__right"/>
+    </div>
     <div class="main" v-if="isMain" :class="{ active: isMain }">
       <div class="users-list">
         <div
@@ -60,6 +69,14 @@
         </div>
       </div>
     </div>
+    <div class="run-anim" v-if="!isLoading && isMain">
+      <div class="man">
+        <img src="~@/assets/man_run.gif" alt="" />
+      </div>
+      <div class="shark">
+        <img src="~@/assets/shark_run.gif" alt="">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -73,12 +90,15 @@ import two from "@/assets/2.png";
 import users from "@/constants/users";
 import duets2023 from "@/constants/duets";
 import Loading from "@/components/Loading/Loading.vue";
+import toastyAudio from "@/assets/Toasty.mp3";
 
 @Component({
   name: "HomeView",
   components: {Loading },
 })
 export default class HomeView extends Vue {
+  toastyAudio = toastyAudio;
+  isToasty = false;
   isLoading = true;
   currentAnimIndex: number | null = null;
   chosenUserIndex: number | null = null;
@@ -99,7 +119,7 @@ export default class HomeView extends Vue {
         this.chosenDuets.push(this.currentDuet);
         this.currentDuet = [];
         localStorage.setItem("duets", JSON.stringify(this.chosenDuets));
-        this.$router.push("/");
+        this.$router.push("/duets");
       }, 10000);
       return
     }
@@ -109,6 +129,7 @@ export default class HomeView extends Vue {
     setTimeout(() => {
       clearInterval(interval);
       this.chosenUserIndex = this.currentAnimIndex;
+      this.isToasty = false;
       setTimeout(() => {
         this.currentDuet.push(this.users[this.currentAnimIndex as number]);
         this.users.splice(this.currentAnimIndex as number, 1);
@@ -116,6 +137,14 @@ export default class HomeView extends Vue {
         this.currentAnimIndex = null;
         if (this.currentDuet.length < 2) this.runAnimation();
         if (this.currentDuet.length === 2) {
+          if ([0, 4, 6, 10].includes(this.chosenDuets.length)) {
+            this.$refs.toastyRef.play();
+            this.isToasty = true;
+            setTimeout(() => {
+              this.isToasty = false;
+            }, 5000)
+
+          }
           this.isAllowNextDuet = true;
         }
       }, 1000)
@@ -184,6 +213,24 @@ export default class HomeView extends Vue {
   content: "";
   animation: 35s linear animClouds infinite;
 }
+.toasty-easter {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  padding: 0 200px;
+  transform: translateY(100%);
+  transition: 0.3s;
+  img {
+    max-width: 400px;
+  }
+  &.active {
+    transform: translateY(0);
+  }
+}
 body {
   overflow-x: hidden;
   &:before {
@@ -247,6 +294,7 @@ $border: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
+    object-fit: cover;
 
   }
   &__user.empty &__user-photo {
@@ -366,7 +414,6 @@ $border: 5px;
     flex-direction: column;
     opacity: 0;
     animation: 0.5s urserAppear forwards;
-
     img {
       display: block;
       width: 200px;
@@ -460,6 +507,29 @@ $border: 5px;
     animation-delay: 4s;
 
   }
+}
+.shark {
+  position: fixed;
+  bottom: 0;
+  right: 30%;
+  animation: 5s linear runAnim infinite;
+  animation-delay: 1s;
+}
+.man {
+  position: fixed;
+  bottom: 0;
+  right: 30%;
+  max-width: 300px;
+  animation: 5s linear runAnim infinite;
+  z-index: -1;
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+.run-anim {
+  animation: 60s runSwitcher linear infinite;
+  animation-delay: 6s;
 }
 @keyframes rotate {
   0% {
@@ -556,5 +626,57 @@ $border: 5px;
     transform: translateY(0);
     opacity: 1;
   }
+}
+@keyframes runAnim {
+  0% {
+    transform: translate(0, 500%) rotate(-20deg);
+  }
+  30% {
+    transform: translate(0, 0) rotate(-20deg);
+  }
+  40% {
+    transform: translate(200px, 0) rotate(-20deg);
+  }
+  50% {
+    transform: translate(400px, -200px) rotate(-20deg);
+  }
+  55% {
+    transform: translate(480px, -200px) rotate(-20deg);
+  }
+  70% {
+    transform: translate(780px, -400px) rotate(-20deg);
+  }
+  80% {
+    transform: translate(900px, -500px) rotate(-20deg);
+  }
+  80% {
+    transform: translate(980px, -600px) rotate(-20deg);
+  }
+  100% {
+    transform: translate(1400px, -800px) rotate(-20deg);
+  }
+}
+@keyframes runSwitcher {
+  0% {
+    opacity: 1;
+  }
+  8.3333% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes horizontal-shaking {
+  0% { transform: translateX(0) }
+  25% { transform: translateX(50px) }
+  30% { transform: translateX(-50px) }
+  40% { transform: translateX(50px) }
+  50% { transform: translateX(-50px) }
+  65% { transform: translateX(50px) }
+  100% { transform: translateX(0) }
 }
 </style>

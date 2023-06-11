@@ -41,7 +41,7 @@ export default class Button extends Vue {
     default: null
   }) uiType!: string;
   @Prop({
-    type: String,
+    type: Boolean,
     default: () => false
   }) disabled!: boolean;
   click(): void {

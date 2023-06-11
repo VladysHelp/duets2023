@@ -42,8 +42,13 @@ import duets from "@/constants/duets";
 export default class HomeView extends Vue {
   duets = duets;
   startGame(): void {
-    playerModule.playSong();
-    this.$router.push("/game");
+    if (duets.length) {
+      this.$router.push("/duets");
+      console.log(duets);
+    } else {
+      playerModule.playSong();
+      this.$router.push("/game");
+    }
   }
 }
 </script>

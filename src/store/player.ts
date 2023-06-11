@@ -13,6 +13,7 @@ import audio2 from "@/assets/Volt_Age_Volt_s_Theme.mp3";
 })
 class playerModule extends VuexModule {
     player: any = null;
+    index = 0;
     tracks = [
         audio,
         audio2,
@@ -34,6 +35,17 @@ class playerModule extends VuexModule {
     @Mutation
     setPlayer(player: any) {
         this.player = player;
+        this.player.addEventListener('ended', () => {
+            if((this.index + 1) < this.tracks.length) {
+                this.index++;
+                this.player.src = this.tracks[this.index];
+                this.player.play();
+            } else {
+                this.index = 0;
+                this.player.src = this.tracks[this.index];
+                this.player.play();
+            }
+        })
     }
 }
 export default getModule(playerModule);

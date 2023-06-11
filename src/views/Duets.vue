@@ -42,9 +42,9 @@ export default class Duets extends Vue {
   position: relative;
 
   &__duet {
-    display: flex;
     gap: 12px;
     position: relative;
+    display: flex;
     &:after {
       position: absolute;
       left: 50%;
@@ -62,14 +62,24 @@ export default class Duets extends Vue {
     background-color: #c0c0c0;
     padding: 12px;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
   &__duet-photo{
     display: block;
     width: 100%;
+    height: 270px;
+    object-fit: cover;
   }
   &__duet-name {
-    padding: 4px;
+    padding: 12px 4px;
     text-align: center;
+    font-size: 12px;
+    line-height: 1.5;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
