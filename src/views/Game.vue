@@ -1,6 +1,6 @@
 <template>
   <div class="game">
-    <Loading v-if="isLoading" />
+    <Loading  class="game__loading" v-if="isLoading" />
     <div class="audio-toasty">
       <audio ref="toastyRef">
         <source :src="toastyAudio" type="audio/mp3">
@@ -160,16 +160,12 @@ export default class HomeView extends Vue {
     this.runAnimation();
   }
   mounted(): void {
-    if (duets2023.length) {
-      this.$router.push("/");
-    } else {
+    setTimeout(() => {
+      this.isLoading = false;
       setTimeout(() => {
-        this.isLoading = false;
-        setTimeout(() => {
-          this.isMain = true;
-        }, 6000);
-      }, 12000)
-    }
+        this.isMain = true;
+      }, 6000);
+    }, 12000)
   }
 }
 </script>
@@ -250,6 +246,10 @@ body {
 $border: 5px;
 .game{
   padding: 32px;
+  zoom: 0.5;
+  &__loading {
+    zoom: 2;
+  }
 }
 .main-lottery {
   display: flex;
@@ -453,6 +453,7 @@ $border: 5px;
   display: flex;
 }
 .rednote-block {
+  zoom: 2;
   position: fixed;
   top: 0;
   left: 0;
@@ -486,39 +487,54 @@ $border: 5px;
     transform: translate(-150%, 150%) scale(0);
     animation: 1s appearLeft forwards ;
     animation-delay: 1s;
+
+    img {
+      display: block;
+      max-width: 300px;
+    }
   }
   &__note {
     transform: translate(150%, 150%) scale(0);
     animation: 1s appearRight forwards;
     animation-delay: 2s;
+    img {
+      display: block;
+      max-width: 400px;
+    }
   }
   &__reborne {
     transform: translate(150%, 150%) scale(0);
     animation: 1s appearBottom forwards;
     animation-delay: 3s;
+    img {
+      display: block;
+      max-width: 700px;
+    }
   }
   &__two {
     position: absolute;
     top: 50%;
     left: 100%;
-    margin-left: -10%;
+    margin-left: -23%;
     transform: translate(500%, -50%) rotate(2000deg);
     animation: linear 1s appearRotate forwards;
     animation-delay: 4s;
-
+    img {
+      max-width: 300px;
+    }
   }
 }
 .shark {
   position: fixed;
   bottom: 0;
-  right: 30%;
+  right: 15%;
   animation: 5s linear runAnim infinite;
   animation-delay: 1s;
 }
 .man {
   position: fixed;
   bottom: 0;
-  right: 30%;
+  right: 15%;
   max-width: 300px;
   animation: 5s linear runAnim infinite;
   z-index: -1;

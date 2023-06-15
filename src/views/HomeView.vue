@@ -43,7 +43,8 @@ export default class HomeView extends Vue {
   duets = duets;
   startGame(): void {
     if (duets.length) {
-      this.$router.push("/duets");
+      this.$router.push("/game");
+      playerModule.playSong();
       console.log(duets);
     } else {
       playerModule.playSong();
@@ -58,10 +59,10 @@ export default class HomeView extends Vue {
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  margin-top: 400px;
+  margin-top: 120px;
   &__menu-title {
     text-align: center;
-    font-size: 80px;
+    font-size: 40px;
     margin-bottom: 120px;
   }
   &__btn {

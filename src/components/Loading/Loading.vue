@@ -46,13 +46,16 @@ export default class Button extends Vue {
 .loader {
   &__sonic{
     margin: 0 auto;
+    img {
+      max-width: 250px;
+    }
   }
   &__progress {
-    width: 520px;
+    width: 320px;
     margin-top: 40px;
-    border-top: 8px solid #808080;
-    border-bottom: 8px solid #808080;
-    height: 60px;
+    border-top: 4px solid #808080;
+    border-bottom: 4px solid #808080;
+    height: 40px;
     position: relative;
     &:after {
       position: absolute;

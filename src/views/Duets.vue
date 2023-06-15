@@ -1,9 +1,12 @@
 <template>
-  <div class="duets">
-    <div class="duets__duet" v-for="duet in duets">
-      <div class="duets__duet-item" v-for="user in duet">
-        <img :src="user.photo" alt="" class="duets__duet-photo" />
-        <p class="duets__duet-name"> {{user.name}}</p>
+  <div>
+    <router-link to="/" class="duets__back"><img src="~@/assets/Arrow.png" alt=""> Back to Menu</router-link>
+    <div class="duets">
+      <div class="duets__duet" v-for="duet in duets">
+        <div class="duets__duet-item" v-for="user in duet">
+          <img :src="user.photo" alt="" class="duets__duet-photo" />
+          <p class="duets__duet-name"> {{user.name}}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -35,7 +38,7 @@ export default class Duets extends Vue {
 <style lang="scss">
 .duets {
   padding: 40px;
-  gap: 32px;
+  gap: 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -65,6 +68,9 @@ export default class Duets extends Vue {
     display: flex;
     flex-direction: column;
   }
+  &__duet-item:last-child &__duet-photo {
+    transform: rotateY(180deg);
+  }
   &__duet-photo{
     display: block;
     width: 100%;
@@ -80,6 +86,19 @@ export default class Duets extends Vue {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  &__back {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding-left: 40px;
+    margin-bottom: 40px;
+    img {
+      max-width: 50px;
+    }
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
   }
 }
 </style>
