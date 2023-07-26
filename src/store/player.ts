@@ -14,9 +14,18 @@ import audio2 from "@/assets/Volt_Age_Volt_s_Theme.mp3";
 class playerModule extends VuexModule {
     player: any = null;
     index = 0;
+    isPlay = false;
+    songName = "";
     tracks = [
-        audio,
-        audio2,
+        {
+            audio: audio,
+            name: "Pisnya bude pomig nas(SYNTHWAVE)"
+        },
+        {
+           audio: audio2,
+           name: "Volt Age Volt's Theme",
+        }
+
     ];
     @Action
     loadTrack(index: number): void {
@@ -24,13 +33,46 @@ class playerModule extends VuexModule {
     }
     @Action
     playSong() {
-        console.log(this.player);
+        const { context } = this;
         this.player.play();
+        context.commit("setIsPlay", true);
+    }
+    @Action
+    pauseSong() {
+        const { context } = this;
+        this.player.pause();
+        context.commit("setIsPlay", false);
     }
     @Action
     setPlayerAction(player: any) {
         const { context } = this;
         context.commit("setPlayer", player);
+    }
+    @Action
+    nextSong() {
+        const { context } = this;
+        context.commit("setNextSong");
+    }
+    @Mutation
+    setIsPlay(value: boolean) {
+        this.isPlay = value;
+        if (value) {
+            this.songName = this.tracks[this.index].name;
+        }
+    }
+    @Mutation
+    setNextSong() {
+        if((this.index + 1) < this.tracks.length) {
+            this.index++;
+            this.player.src = this.tracks[this.index].audio;
+            this.player.play();
+            this.songName = this.tracks[this.index].name;
+        } else {
+            this.index = 0;
+            this.player.src = this.tracks[this.index].audio;
+            this.player.play();
+            this.songName = this.tracks[this.index].name;
+        }
     }
     @Mutation
     setPlayer(player: any) {
@@ -38,12 +80,14 @@ class playerModule extends VuexModule {
         this.player.addEventListener('ended', () => {
             if((this.index + 1) < this.tracks.length) {
                 this.index++;
-                this.player.src = this.tracks[this.index];
+                this.player.src = this.tracks[this.index].audio;
                 this.player.play();
+                this.songName = this.tracks[this.index].name;
             } else {
                 this.index = 0;
-                this.player.src = this.tracks[this.index];
+                this.player.src = this.tracks[this.index].audio;
                 this.player.play();
+                this.songName = this.tracks[this.index].name;
             }
         })
     }
