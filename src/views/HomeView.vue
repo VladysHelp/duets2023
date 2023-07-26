@@ -25,6 +25,14 @@
       >
         Rules
       </Button>
+      <Button
+          class="home__btn"
+          ui-type="green"
+          type="router-link"
+          to="/timer"
+      >
+        Timer
+      </Button>
     </div>
   </div>
 </template>
