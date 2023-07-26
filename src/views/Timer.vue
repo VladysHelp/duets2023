@@ -83,9 +83,9 @@ export default class TimerView extends Vue {
     background-color: #3a3a3a;
     font-size: 42px;
     color: lightgreen;
-  }
-  &__days {
-
+    @media all and (max-width: 768px) {
+      font-size: 24px;
+    }
   }
 }
 </style>
