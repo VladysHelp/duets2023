@@ -84,7 +84,7 @@ export default class TimerView extends Vue {
     font-size: 42px;
     color: lightgreen;
     @media all and (max-width: 768px) {
-      font-size: 24px;
+      font-size: 16px;
     }
   }
 }
