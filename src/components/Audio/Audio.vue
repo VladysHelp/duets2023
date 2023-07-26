@@ -49,7 +49,7 @@ export default class Audio extends Vue {
   bottom: 20px;
   left: 20px;
   min-width: 250px;
-  max-width: 400px;
+  max-width: 350px;
   padding: 16px;
   background-color: cadetblue;
   display: flex;
