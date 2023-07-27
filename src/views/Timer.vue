@@ -23,7 +23,7 @@ export default class TimerView extends Vue {
     minutes: 0,
     seconds: 0,
   }
-  endData = new Date("07/30/2023").getTime();
+  endData = new Date("07/30/2023").getTime() + (17 * 60 * 60 * 1000);
   differenceObj(currDate: number, endDate: number) {
     let delta = Math.floor((endDate - currDate) / 1000);
     let days = Math.floor((delta)/(60*60*24))< 10 ? '0' + Math.floor((delta)/(60*60*24)) : Math.floor((delta)/(60*60*24));
