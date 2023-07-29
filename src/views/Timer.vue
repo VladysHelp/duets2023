@@ -2,7 +2,7 @@
   <div class="timer">
     <div class="cloud1" />
     <div class="cloud2" />
-    <div class="timer__click" v-if="new Date().getTime() < endData">
+    <div class="timer__click" v-if="new Date().getTime() < passedData">
       <p>Duets Concert<br/>in:</p>
       <div class="timer__days">{{ time.days }}</div>
       <div class="timer__hours">{{ time.hours }}</div>
@@ -45,6 +45,7 @@ export default class TimerView extends Vue {
   }
   bananaImg = bananaImg;
   endData = new Date("07/30/2023").getTime() + (17 * 60 * 60 * 1000);
+  passedData = new Date("07/30/2023").getTime() + (21 * 60 * 60 * 1000);
   timeout: number | null = null;
   differenceObj(currDate: number, endDate: number) {
     let delta = Math.floor((endDate - currDate) / 1000);
