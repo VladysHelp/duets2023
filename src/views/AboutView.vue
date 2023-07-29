@@ -20,6 +20,7 @@
   padding-top: 330px;
   position: relative;
   display: block;
+  zoom: 0.4;
   &__link {
     display: flex;
     align-items: center;
