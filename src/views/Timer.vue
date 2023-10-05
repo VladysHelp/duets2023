@@ -3,7 +3,7 @@
     <div class="cloud1" />
     <div class="cloud2" />
     <div class="timer__click" v-if="new Date().getTime() < passedData">
-      <p>Duets Concert<br/>in:</p>
+      <p>REDROCK<br/>"Пісня буде поміж нас" <br/>in:</p>
       <div class="timer__days">{{ time.days }}</div>
       <div class="timer__hours">{{ time.hours }}</div>
       <div class="timer__minutes"> {{ time.minutes }} </div>
