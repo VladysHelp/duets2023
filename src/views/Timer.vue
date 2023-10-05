@@ -44,8 +44,8 @@ export default class TimerView extends Vue {
     seconds: 0,
   }
   bananaImg = bananaImg;
-  endData = new Date("07/30/2023").getTime() + (17 * 60 * 60 * 1000);
-  passedData = new Date("07/30/2023").getTime() + (21 * 60 * 60 * 1000);
+  endData = new Date("10/15/2023").getTime() + (18 * 60 * 60 * 1000);
+  passedData = new Date("10/15/2023").getTime() + (22 * 60 * 60 * 1000);
   timeout: number | null = null;
   differenceObj(currDate: number, endDate: number) {
     let delta = Math.floor((endDate - currDate) / 1000);
