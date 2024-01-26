@@ -3,7 +3,7 @@
     <div class="cloud1" />
     <div class="cloud2" />
     <div class="timer__click" v-if="new Date().getTime() < passedData">
-      <p>REDROCK<br/>"Пісня буде поміж нас" <br/>in:</p>
+      <p>REDROCK<br/>Пісня буде поміж нас <br/>Winter Edition<br/>in:</p>
       <div class="timer__days">{{ time.days }}</div>
       <div class="timer__hours">{{ time.hours }}</div>
       <div class="timer__minutes"> {{ time.minutes }} </div>
@@ -44,8 +44,8 @@ export default class TimerView extends Vue {
     seconds: 0,
   }
   bananaImg = bananaImg;
-  endData = new Date("10/15/2023").getTime() + (18 * 60 * 60 * 1000);
-  passedData = new Date("10/15/2023").getTime() + (22 * 60 * 60 * 1000);
+  endData = new Date("01/28/2024").getTime() + (18 * 60 * 60 * 1000);
+  passedData = new Date("01/28/2024").getTime() + (22 * 60 * 60 * 1000);
   timeout: number | null = null;
   differenceObj(currDate: number, endDate: number) {
     let delta = Math.floor((endDate - currDate) / 1000);
@@ -119,6 +119,7 @@ export default class TimerView extends Vue {
       width: 100%;
       text-align: center;
       font-size: 44px;
+      line-height: 1.4;
     }
     & > div {
       padding: 20px;
